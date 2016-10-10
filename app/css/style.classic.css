@@ -1,0 +1,79 @@
+.classic.modal-window__block {
+    position: absolute;
+    border: 1px solid black;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+
+}
+
+.classic .modal-window__block {
+    position: fixed;
+    border: 1px solid black;
+    background-color: rgba(127, 127, 127, 0.12);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+
+}
+
+.classic .modal-window__header {
+    height: 30px;
+    background-color: #00009C;
+    width: 100%;
+    cursor: pointer;
+
+    background: -webkit-linear-gradient(#00009C, #000066, #00009C); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#00009C, #000066, #00009C); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#00009C, #000066, #00009C); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#00009C, #000066, #00009C); /* Standard syntax */
+}
+
+
+.classic .modal-window__header:hover,
+.classic .modal-window__header:active,
+.classic .modal-window__header:focus
+{
+    background-color: #000066;
+    background: -webkit-linear-gradient(#000066, #00009C, #000066); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#000066, #00009C, #000066); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#000066, #00009C, #000066); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#000066, #00009C, #000066); /* Standard syntax */
+}
+
+
+
+
+.classic .modal-window__button {
+    float:right;
+    margin: 2px 2px 0 0;
+    cursor:pointer;
+    color: #fff;
+    border: 1px solid white;
+    border-radius: 3px;
+    background: red;
+    font-size: 31px;
+    font-weight: bold;
+    line-height: 0;
+    padding: 11px 3px;
+}
+
+.classic .modal-window__button:hover,
+.classic .modal-window__button:active,
+.classic .modal-window__button:focus
+{
+    outline: none;
+    -moz-box-shadow: inset 0 0 1px 2px #c31f1f;
+    -webkit-box-shadow: inset 0 0 1px 2px #c31f1f;
+    cursor: pointer;
+}
+
+.classic .modal-window__button:before {
+    content: "×";
+}
+
+
+.classic .sun-cont {
+    height: 99%;
+}
+.classic  iframe {
+    height: 92%;
+    width: 99%;
+    border-radius: 5px;
+}
