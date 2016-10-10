@@ -1,4 +1,4 @@
-``
+```
 To set up the project, do:
 
 1. npm install
@@ -8,4 +8,4 @@ To set up the project, do:
 
 Use this plugin to create your own customizable modal window(s)
 
-``
+```
