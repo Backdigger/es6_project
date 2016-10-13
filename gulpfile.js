@@ -2,12 +2,13 @@ var gulp = require('gulp');
 var webserver = require('gulp-webserver');
  
 gulp.task('webserver', function() {
-  gulp.src('app')
+  gulp.src('./app')
     .pipe(webserver({
-      fallback: 'main.html',
-      livereload: true,
-      directoryListing: true,
-      open: true
+      fallback: 'index.html',
+      
+      
+      open: true,
+      port: '9000'
     }));
 });
 

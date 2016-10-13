@@ -13,7 +13,6 @@ class MyWindow extends EventEmitter {
         this.box.style.height = (options.height || 200) + 'px';
         this.box.classList.add(options.style || 'classic');
 
-
         this.iFrameSrc = options.src || 'http://www.tut.by';
         this._initHtmlStructure();
         this._addEventListeners();
@@ -36,8 +35,14 @@ class MyWindow extends EventEmitter {
         window.isDown = false;
         window.offsetX = 0;
         window.offsetY = 0;
-        window.addEventListener('mouseup', this.windowMouseUp, false);
+
+
+        this.windowMouseMove = this.windowMouseMove.bind(this);
+        this.boxMouseDown = this.boxMouseDown.bind(this);
         this.box.addEventListener('mousedown', this.boxMouseDown, false);
+        window.addEventListener('mouseup', this.windowMouseUp, false);
+        window.addEventListener('mousemove', this.windowMouseMove, false);
+
 
     }
 
@@ -55,10 +60,13 @@ class MyWindow extends EventEmitter {
         this.style = this.box.classList.add(style);
     }
 
+
+
     initResize(e)
     {
         window.addEventListener('mousemove', this.resize, false);
         window.addEventListener('mouseup', this.stopResize, false);
+
 
     }
     _resize(e)
@@ -71,38 +79,71 @@ class MyWindow extends EventEmitter {
     {
         window.removeEventListener('mousemove', this.resize, false);
         window.removeEventListener('mouseup', this.stopResize, false);
+        window.isDown = false;
     }
 
-    windowMouseUp(e) {
-        if (window.isDown) {
-            window.isDown = false;
+
+
+    windowMouseMove(e) {
+
+        if (window.isDown && e.target.className === "modal-window__header") {
+            window.currentBox = e.target.parentNode;
             window.currentBox.style.top = (e.clientY - window.offsetY) + 'px';
             window.currentBox.style.left = (e.clientX - window.offsetX) + 'px';
+            if (currentBox.getBoundingClientRect().bottom > document.documentElement.clientHeight) {
+                window.currentBox.style.top = (document.documentElement.clientHeight -  parseInt(window.currentBox.style.height)) + 'px';
+            }
+            if (parseInt(window.currentBox.style.top) < 0) {
+                window.currentBox.style.top = 0;
+            }
+            if (window.currentBox.offsetLeft < 0) {
+                window.currentBox.style.left = 0;
+            }
+            if (document.documentElement.clientWidth - (parseInt(window.currentBox.offsetLeft) + parseInt(window.currentBox.style.width)) < 0) {
+                window.currentBox.style.left = (document.documentElement.clientWidth -  parseInt(window.currentBox.style.width)) + 'px';
+            }
         }
-        // else {
-        //     window.removeEventListener('mousemove', this.resize, false);
-        //     window.removeEventListener('mouseup', this.stopResize, false);
-        // }
+
+
+    }
+    windowMouseUp(e) {
+        if (window.isDown && e.target.className === "modal-window__header") {
+
+            window.currentBox.style.top = (e.clientY - window.offsetY) + 'px';
+            window.currentBox.style.left = (e.clientX - window.offsetX) + 'px';
+            window.isDown = false;
+            if (currentBox.getBoundingClientRect().bottom > document.documentElement.clientHeight) {
+                window.currentBox.style.top = (document.documentElement.clientHeight -  parseInt(window.currentBox.style.height)) + 'px';
+            }
+            if (parseInt(window.currentBox.style.top) < 0) {
+                window.currentBox.style.top = 0;
+            }
+            if (window.currentBox.offsetLeft < 0) {
+                window.currentBox.style.left = 0;
+            }
+            if (document.documentElement.clientWidth - (parseInt(window.currentBox.offsetLeft) + parseInt(window.currentBox.style.width)) < 0) {
+                window.currentBox.style.left = (document.documentElement.clientWidth -  parseInt(window.currentBox.style.width)) + 'px';
+            }
+        }
         e.preventDefault();
     }
+
+
+
     boxMouseDown(e) {
-        if (!window.isDown && e.target.className === 'modal-window__header') {
+        if (!window.isDown) {
             window.isDown = true;
             window.offsetX = e.offsetX;
             window.offsetY = e.offsetY;
             window.currentBox = e.target.parentNode;
-
+            window.addEventListener('mousemove', this.windowMouseMove, false);
+            window.addEventListener('mouseup', this.windowMouseUp, false);
+        }
+        e.preventDefault();
         }
 
-        //else if (e.target.className === 'resizer') {
 
 
-            // e.target.parentNode.style.width +=  e.clientX - e.target.parentNode.style.width;
-            // e.target.parentNode.style.height +=  e.clientY - e.target.parentNode.style.height;
-
-        //}
-        e.preventDefault();
-    }
     setPosition(top, left) {
         this.emit('position', [{top: this.box.style.top, left: this.box.style.left}, {top: top, left: left}]);
         this.box.style.top = top + 'px';
@@ -181,7 +222,6 @@ v1.addListener('remove', () => {
 });
 
 v1.addListener('position', ([oldPosition, newPosition]) => {console.log(newPosition);});
-
 
 
 
